@@ -47,7 +47,10 @@ app.use(cookieParser());
 
 // Enable CSRF protection for state-changing routes (POST, PUT, DELETE)
 const csrfProtection = csurf({
-  cookie: true, // Store CSRF token in a cookie
+  cookie: {
+    httpOnly: true, // Prevents JavaScript from accessing the cookie
+    secure: process.env.NODE_ENV === 'production', // Only set the secure flag in production
+  },
 });
 
 // Use middleware to increment visitor count
