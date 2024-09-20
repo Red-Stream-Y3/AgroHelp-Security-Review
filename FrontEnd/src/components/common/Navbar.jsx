@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaBookOpen,
@@ -12,23 +12,23 @@ import {
   FaUserPlus,
   FaLock,
   FaPen,
-} from 'react-icons/fa';
-import { ImLeaf } from 'react-icons/im';
-import { HiMenu, HiOutlineX } from 'react-icons/hi';
-import { useGlobalContext } from '../../context/ContextProvider';
-import { logout } from '../../api/user';
+} from "react-icons/fa";
+import logoLeaf from "../../assets/logoLeaf.svg";
+import { HiMenu, HiOutlineX } from "react-icons/hi";
+import { useGlobalContext } from "../../context/ContextProvider";
+import { logout } from "../../api/user";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   const { user } = useGlobalContext();
-  const isAccess = user && (user.role === 'admin' || user.role === 'moderator');
-  const isContributor = user && user.role === 'contributor';
-  const isAdmin = user && user.role === 'admin';
+  const isAccess = user && (user.role === "admin" || user.role === "moderator");
+  const isContributor = user && user.role === "contributor";
+  const isAdmin = user && user.role === "admin";
   const userImage = user && user.profilePic;
 
   const location = useLocation();
@@ -39,29 +39,29 @@ const Navbar = () => {
     if (search.trim()) {
       navigate(`/search/${search}`);
     } else {
-      navigate('/home');
+      navigate("/home");
     }
   };
 
   const navigation = [
     {
-      name: 'Home',
-      link: '/home',
+      name: "Home",
+      link: "/home",
       icon: <FaHome className="h-6 w-6 text-white" />,
     },
     {
-      name: 'Knowledge',
-      link: '/knowledge-base',
+      name: "Knowledge",
+      link: "/knowledge-base",
       icon: <FaBookOpen className="h-6 w-6 text-white" />,
     },
     {
-      name: 'Forum',
-      link: '/forum',
+      name: "Forum",
+      link: "/forum",
       icon: <FaQuestion className="h-6 w-6 text-white" />,
     },
     {
-      name: 'Blog',
-      link: '/blog',
+      name: "Blog",
+      link: "/blog",
       icon: <FaPenNib className="h-6 w-6 text-white" />,
     },
   ];
@@ -100,7 +100,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/home" className="flex-shrink-0 flex items-center">
-              <ImLeaf className="h-8 w-8 text-white" />
+              <img src={logoLeaf} alt="logo" className="w-16 h-16" />
               <span className="text-white font-extrabold ml-2 text-3xl">
                 AgroHelp
               </span>
@@ -165,8 +165,8 @@ const Navbar = () => {
                 to={item.link}
                 className={`${
                   location.pathname === item.link
-                    ? 'bg-primarydark hover:bg-secondary'
-                    : ''
+                    ? "bg-primarydark hover:bg-secondary"
+                    : ""
                 } px-3 py-2 hover:bg-secondary text-white rounded-md flex items-center mx-1`}
               >
                 {item.icon}
@@ -347,7 +347,7 @@ const Navbar = () => {
             >
               <img
                 className="h-6 w-6 rounded-full object-cover"
-                src = {userImage}
+                src={userImage}
                 alt="Profile"
               />
               <span className="ml-2">Profile</span>
