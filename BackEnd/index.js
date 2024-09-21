@@ -60,16 +60,21 @@ app.use(notFound);
 app.use(errorHandler);
 
 let PORT = process.env.PORT || 5000;
+let HTTP_PORT = process.env.HTTP_PORT || 5001;
 if (process.env.NODE_ENV !== 'test') {
-  // app.listen(PORT, () => {
-  //   logger.info(`Server is running on port: ${PORT}`.yellow.bold);
-  // });
+  app.listen(HTTP_PORT, () => {
+    logger.info(`HTTP Server is Listening on port: ${HTTP_PORT}`.yellow.bold);
+  });
 
   https
     .createServer(
       {
-        key: fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
-        cert: fs.readFileSync(path.join(__dirname, 'ssl', 'server.cert')),
+        key:
+          process.env.SSL_PRIVATE_KEY ||
+          fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
+        cert:
+          process.env.SSL_CERTIFICATE ||
+          fs.readFileSync(path.join(__dirname, 'ssl', 'server.cert')),
       },
       app
     )
