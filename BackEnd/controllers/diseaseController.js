@@ -12,8 +12,8 @@ const getCropDiseases = asyncHandler(async (req, res) => {
     );
     res.json(cropDiseases);
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -30,8 +30,8 @@ const getCropDiseaseById = asyncHandler(async (req, res) => {
       throw new Error('Crop disease not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -43,14 +43,13 @@ const getAllAcceptedCropDiseases = asyncHandler(async (req, res) => {
     const cropDiseases = await CropDisease.find({ isAccepted: true });
     if (cropDiseases) {
       res.json(cropDiseases);
-      console.log('cropDiseases', cropDiseases);
     } else {
       res.status(404);
       throw new Error('Crop diseases not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -67,8 +66,8 @@ const deleteCropDisease = asyncHandler(async (req, res) => {
       throw new Error('Crop disease not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -117,8 +116,8 @@ const createCropDisease = asyncHandler(async (req, res) => {
     const createdCropDisease = await cropDisease.save();
     res.status(201).json(createdCropDisease);
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -159,8 +158,8 @@ const updateCropDisease = asyncHandler(async (req, res) => {
       throw new Error('Crop disease not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -180,8 +179,8 @@ const searchCropDisease = asyncHandler(async (req, res) => {
       throw new Error('Crop disease not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -197,10 +196,9 @@ const getRandomCropDiseases = asyncHandler(async (req, res) => {
       res.status(404);
       throw new Error('Crop disease not found');
     }
-  }
-  catch (error) {
-    console.log(error);
+  } catch (error) {
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -236,8 +234,8 @@ const getDiseasesByAuthor = asyncHandler(async (req, res) => {
       throw new Error('Diseases not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -267,8 +265,8 @@ const addRemoveDiseaseBookmark = asyncHandler(async (req, res) => {
       throw new Error('Disease not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -282,8 +280,8 @@ const getDiseaseBookmarksByUser = asyncHandler(async (req, res) => {
       throw new Error('Diseases not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 

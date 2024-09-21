@@ -17,6 +17,7 @@ import forumRoutes from './routes/forumRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import cropRoutes from './routes/cropRoutes.js';
 import diseaseRoutes from './routes/diseaseRoutes.js';
+import logger from './controllers/logger.js';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: findConfig('.env.dev') });
@@ -59,7 +60,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`.yellow.bold);
+    logger.info(`Server is running on port: ${PORT}`.yellow.bold);
   });
 }
 
