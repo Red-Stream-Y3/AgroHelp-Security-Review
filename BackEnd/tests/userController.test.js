@@ -11,6 +11,8 @@ dotenv.config({ path: findConfig('.env.dev') });
 let authToken, adminToken;
 let userId, adminId;
 
+const INVALID_TOKEN = 'Bearer invalidtoken';
+
 const testAdmin = {
   username: 'Benjamin',
   email: 'benjamin@gmail.com',
@@ -108,7 +110,7 @@ describe('User Controller', () => {
   test('Return 401 unauthorized error when passed an invalid auth token - GET api/users/profile', async () => {
     const response = await request(app)
       .get('/api/users/profile')
-      .set('Authorization', 'Bearer invalidtoken')
+      .set('Authorization', INVALID_TOKEN)
       .expect(401);
     expect(response.body.message).toBe('Not authorized, token failed');
   });
@@ -141,7 +143,7 @@ describe('User Controller', () => {
     const updateData = { username: 'newusername' };
     const response = await request(app)
       .put('/api/users/profile')
-      .set('Authorization', 'Bearer invalidtoken')
+      .set('Authorization', INVALID_TOKEN)
       .send(updateData)
       .expect(401);
     expect(response.body.message).toBe('Not authorized, token failed');
