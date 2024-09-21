@@ -16,32 +16,31 @@ const Search = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log('SEARCH', error.message);
       });
   }, [searchTerm]);
-  console.log(searchResults);
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen">
+      <div className='flex flex-col items-center justify-center h-screen'>
         <Loader />
       </div>
     );
   }
 
   return (
-    <div data-testid="search">
-      <div className="flex flex-col items-center justify-center">
-        <div className="flex flex-col items-start place-items-start py-5 px-8 ml-0 mr-auto w-full">
-          <h1 className="text-3xl text-left text-white font-bold pt-5 pl-5">
+    <div data-testid='search'>
+      <div className='flex flex-col items-center justify-center'>
+        <div className='flex flex-col items-start place-items-start py-5 px-8 ml-0 mr-auto w-full'>
+          <h1 className='text-3xl text-left text-white font-bold pt-5 pl-5'>
             Search Results for : {searchTerm}
           </h1>
 
-          <hr className="border-gray-500 border-1 w-full mt-4" />
+          <hr className='border-gray-500 border-1 w-full mt-4' />
         </div>
-        <div className="flex flex-wrap justify-center md:justify-start md:pl-3">
+        <div className='flex flex-wrap justify-center md:justify-start md:pl-3'>
           {searchResults.map((item) => (
-            <div key={item._id} className="m-4">
+            <div key={item._id} className='m-4'>
               {item.cropName ? (
                 <CropCard crop={item} />
               ) : (

@@ -205,7 +205,7 @@ export const getSubscribedForumsByUser = async (user, checkStatus) => {
       return null;
     }
   } catch (error) {
-    //console.log(error);
+    //ignore error
   }
 };
 
@@ -478,7 +478,7 @@ export const getForumsByUser = async (user, checkStatus) => {
       return null;
     }
   } catch (error) {
-    //console.log(error.message);
+    //ignore error
   }
 };
 

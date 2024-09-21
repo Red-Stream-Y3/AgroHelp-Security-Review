@@ -4,10 +4,9 @@ import axios from 'axios';
 export const getAllBlogs = async () => {
   try {
     const response = await axios.get('/api/blog');
-    console.log('blog', response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -16,10 +15,9 @@ export const getAllBlogs = async () => {
 export const getBlogById = async (id) => {
   try {
     const response = await axios.get(`/api/blog/${id}`);
-    //console.log('blog', response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -30,7 +28,7 @@ export const getAcceptedBlogs = async () => {
     const response = await axios.get('/api/blog');
     return response.data.filter((blog) => blog.isAccepted);
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -41,7 +39,7 @@ export const createBlog = async (blog) => {
     const response = await axios.post('/api/blog', blog);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -50,10 +48,9 @@ export const createBlog = async (blog) => {
 export const updateBlog = async (id, blog) => {
   try {
     const response = await axios.put(`/api/blog/${id}`, blog);
-    console.log('blog', response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -62,10 +59,9 @@ export const updateBlog = async (id, blog) => {
 export const deleteBlog = async (id) => {
   try {
     const response = await axios.delete(`/api/blog/${id}`);
-    console.log('blog', response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -74,10 +70,9 @@ export const deleteBlog = async (id) => {
 export const searchBlog = async (keyword) => {
   try {
     const response = await axios.get(`/api/blog/search/q=${keyword}`);
-    console.log('blog', response);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -86,10 +81,9 @@ export const searchBlog = async (keyword) => {
 export const commentonBlog = async (id, comment) => {
   try {
     const response = await axios.post(`/api/blog/comment/${id}`, comment);
-    console.log('blog', response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -98,10 +92,9 @@ export const commentonBlog = async (id, comment) => {
 export const likeBlog = async (id, user) => {
   try {
     const response = await axios.post(`/api/blog/like/${id}`, { userId: user });
-    console.log('blog', response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -112,10 +105,9 @@ export const disLikeBlog = async (id, user) => {
     const response = await axios.post(`/api/blog/dislike/${id}`, {
       userId: user,
     });
-    console.log('blog', response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -126,7 +118,7 @@ export const updateBlogAccept = async (id, blog) => {
     const response = await axios.put(`/api/blog/${id}/accept`, blog);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
   }
 };
 
@@ -136,7 +128,7 @@ export const getBlogsByAuthor = async (authorId) => {
     const response = await axios.get(`/api/blog/author/${authorId}`);
     return response.data.filter((blog) => blog.isAccepted);
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -147,7 +139,7 @@ export const blogCommentAccept = async (id, blog) => {
     const response = await axios.put(`/api/blog/${id}/comment`, blog);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
   }
 };
 
@@ -157,7 +149,7 @@ export const deleteBlogComment = async (id, commentId) => {
     const response = await axios.delete(`/api/blog/comment/${id}/${commentId}`);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
   }
 };
 
@@ -167,10 +159,9 @@ export const handleBlogBookamrk = async (id, user) => {
     const response = await axios.post(`/api/blog/bookmark/${id}`, {
       userId: user,
     });
-    console.log('blog', response.data);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
   }
 };
 
@@ -180,11 +171,10 @@ export const getBookmarkedBlogs = async (userId) => {
     const response = await axios.get(`/api/blog/bookmark/${userId}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
-
 
 //get latest four blogPosts
 export const getLatestBlogPosts = async () => {
@@ -192,7 +182,7 @@ export const getLatestBlogPosts = async () => {
     const response = await axios.get('/api/blog/new');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };
@@ -203,7 +193,7 @@ export const getAuthorAllBlogs = async (authorId) => {
     const response = await axios.get(`/api/blog/author/${authorId}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('BLOG', error.message);
     return [];
   }
 };

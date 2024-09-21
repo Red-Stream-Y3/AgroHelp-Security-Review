@@ -10,7 +10,7 @@ export const login = async (email, password) => {
     localStorage.setItem('userInfo', JSON.stringify(response.data));
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -33,7 +33,7 @@ export const register = async (
     localStorage.setItem('userInfo', JSON.stringify(response.data));
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -55,7 +55,7 @@ export const getUsers = async (token) => {
     const response = await axios.get('/api/users', config);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -71,7 +71,7 @@ export const getUserDetails = async (id, token) => {
     const response = await axios.get(`/api/users/${id}`, config);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -89,7 +89,7 @@ export const updateProfile = async (user, token) => {
     localStorage.setItem('userInfo', JSON.stringify(response.data));
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -105,7 +105,7 @@ export const updateUser = async (user, token) => {
     const response = await axios.put(`/api/users/${user._id}`, user, config);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -125,7 +125,7 @@ export const requestRole = async (user, token) => {
     );
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -140,7 +140,7 @@ export const deleteUser = async (id, token) => {
     const response = await axios.delete(`/api/users/${id}`, config);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -156,7 +156,7 @@ export const getSiteVisits = async (token) => {
     const response = await axios.get('/api/visits', config);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -166,6 +166,6 @@ export const getAuthorInfo = async (id, token) => {
     const response = await axios.get(`/api/users/${id}/author`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
