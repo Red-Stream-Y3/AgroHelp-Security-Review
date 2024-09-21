@@ -59,7 +59,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+let PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'test') {
   // app.listen(PORT, () => {
   //   logger.info(`Server is running on port: ${PORT}`.yellow.bold);
@@ -70,16 +70,16 @@ if (process.env.NODE_ENV !== 'test') {
       {
         key:
           process.env.SSL_KEY |
-          fs.readFileSync(path.join(__dirname, 'ssl', 'key.pem')),
+          fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
         cert:
           process.env.SSL_CERT |
-          fs.readFileSync(path.join(__dirname, 'ssl', 'cert.pem')),
+          fs.readFileSync(path.join(__dirname, 'ssl', 'server.cert')),
       },
       app
     )
     .listen(PORT, () => {
       logger.info(`AGROHELP SERVER STARTED!`.yellow.bold);
-      logger.info(`Server is listening on port: ${PORT}`.yellow.bold);
+      logger.info(`HTTPS Server is listening on port: ${PORT}`.yellow.bold);
     });
 }
 
