@@ -18,6 +18,8 @@ import blogRoutes from './routes/blogRoutes.js';
 import cropRoutes from './routes/cropRoutes.js';
 import diseaseRoutes from './routes/diseaseRoutes.js';
 import logger from './controllers/logger.js';
+import https from 'https';
+import fs from 'fs';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: findConfig('.env.dev') });
@@ -59,9 +61,26 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-    logger.info(`Server is running on port: ${PORT}`.yellow.bold);
-  });
+  // app.listen(PORT, () => {
+  //   logger.info(`Server is running on port: ${PORT}`.yellow.bold);
+  // });
+
+  https
+    .createServer(
+      {
+        key:
+          process.env.SSL_KEY |
+          fs.readFileSync(path.join(__dirname, 'ssl', 'key.pem')),
+        cert:
+          process.env.SSL_CERT |
+          fs.readFileSync(path.join(__dirname, 'ssl', 'cert.pem')),
+      },
+      app
+    )
+    .listen(PORT, () => {
+      logger.info(`AGROHELP SERVER STARTED!`.yellow.bold);
+      logger.info(`Server is listening on port: ${PORT}`.yellow.bold);
+    });
 }
 
 export default app;
