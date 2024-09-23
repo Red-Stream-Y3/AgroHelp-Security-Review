@@ -19,7 +19,9 @@ import cropRoutes from "./routes/cropRoutes.js";
 import diseaseRoutes from "./routes/diseaseRoutes.js";
 
 import passport from "passport";
-import cookieSession from "cookie-session";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+import User from "./models/userModel.js";
 import "./passport-setup.js";
 
 if (process.env.NODE_ENV !== "production") {
@@ -33,10 +35,18 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGO_URI,
+  collectionName: "sessions",
+});
+
 app.use(
-  cookieSession({
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-    keys: [process.env.COOKIE_KEY],
+  session({
+    secret: process.env.COOKIE_KEY,
+    saveUninitialized: false,
+    resave: false,
+    store: store,
+    cookie: { secure: process.env.NODE_ENV === "production" },
   })
 );
 
@@ -62,26 +72,41 @@ app.get(
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", {
+    failureRedirect: `${process.env.FRONTEND_URL}/login`,
+  }),
   async (req, res) => {
-    const { id, emails, name, picture } = req.user;
+    const { googleId, username, email, firstName, lastName, profilePic } =
+      req.user;
+    console.log("user", req.user);
 
-    let existingUser = await User.findOne({ googleId: id });
+    let existingUser = await User.findOne({ googleId: googleId });
+    console.log("existingUser", existingUser);
 
     if (!existingUser) {
       existingUser = new User({
-        googleId: id,
-        email: emails[0].value,
-        firstName: name.givenName,
-        lastName: name.familyName,
-        profilePic: picture || User.schema.path("profilePic").defaultValue,
+        username: username,
+        googleId: googleId,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        profilePic: profilePic || User.schema.path("profilePic").defaultValue,
       });
       await existingUser.save();
     }
 
+    const googleAccessToken = req.user.accessToken;
+
     req.login(existingUser, (err) => {
       if (err) return res.status(500).send(err);
-      return res.redirect("/home");
+
+      res.redirect(
+        `${process.env.FRONTEND_URL}/login?googleAuthSuccess` +
+          `&username=${username}&email=${email}&firstName=${firstName}` +
+          `&lastName=${lastName}&profilePic=${profilePic}` +
+          `&role=${existingUser.role}&request=${existingUser.request}` +
+          `&token=${googleAccessToken}`
+      );
     });
   }
 );

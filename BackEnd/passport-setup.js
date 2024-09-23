@@ -25,13 +25,24 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
     },
-    (profile, done) => {
-      User.findOne({ googleId: profile.googleId }).then((existingUser) => {
+    (accessToken, refreshToken, profile, done) => {
+      User.findOne({ googleId: profile.id }).then((existingUser) => {
         if (existingUser) {
+          existingUser.accessToken = accessToken;
           done(null, existingUser);
         } else {
-          new User({ googleId: profile.googleId }).save().then((newUser) => {
-            done(null, newUser);
+          const newUser = new User({
+            username: profile.name.givenName + profile.name.familyName,
+            googleId: profile.id,
+            email: profile.emails[0].value,
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+            profilePic: profile._json.picture,
+          });
+
+          newUser.save().then((user) => {
+            user.accessToken = accessToken;
+            done(null, user);
           });
         }
       });

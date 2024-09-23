@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-// import { useGoogleLogin } from "@react-oauth/google";
 import { useGlobalContext } from "../../context/ContextProvider";
 import { login } from "../../api/user";
 import logo from "../../assets/logo.svg";
@@ -28,18 +27,31 @@ const Login = () => {
     if (user) {
       navigate(redirect);
     }
-  }, [navigate, user, redirect]);
 
-  // const googleLogin = useGoogleLogin({
-  //   onSuccess: (tokenResponse) => {
-  //     // handle the Google login token
-  //     // Call API to login or register the user
-  //     console.log(tokenResponse);
-  //   },
-  //   onError: (error) => {
-  //     console.error("Google Login Failed:", error);
-  //   },
-  // });
+    const params = new URLSearchParams(location.search);
+    const token = params.get("token");
+    const username = params.get("username");
+    const email = params.get("email");
+    const firstName = params.get("firstName");
+    const lastName = params.get("lastName");
+    const profilePic = params.get("profilePic");
+
+    if (token) {
+      const userData = {
+        token,
+        username,
+        email,
+        firstName,
+        lastName,
+        profilePic,
+      };
+
+      localStorage.setItem("userInfo", JSON.stringify(userData));
+      setUser(userData);
+
+      navigate("/home");
+    }
+  }, [user, location, redirect, navigate, setUser]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -47,10 +59,16 @@ const Login = () => {
       const { data } = await login(email, password);
       if (data) {
         setUser(data);
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        navigate(redirect);
       }
     }
   };
 
+  // Function to handle Google Login redirect
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:9120/auth/google"; // Adjust URL based on your backend server
+  };
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="md:bg-slate-900 p-6 rounded-lg shadow-lg w-full md:w-96">
@@ -99,7 +117,7 @@ const Login = () => {
           <div className="flex-grow border-b border-gray-300"></div>
         </div>
         <button
-          // onClick={googleLogin}
+          onClick={handleGoogleLogin}
           className="flex items-center justify-center w-full bg-white p-2 rounded shadow-md mt-4 hover:bg-gray-100 transition duration-200"
         >
           <img src={googleLogo} alt="Google Logo" className="w-6 h-6 mr-2" />
