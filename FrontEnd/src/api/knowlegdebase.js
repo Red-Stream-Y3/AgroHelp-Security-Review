@@ -1,12 +1,14 @@
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 // get all crops
 export const getAllCrops = async () => {
   try {
     const response = await axios.get('/api/crops');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -15,10 +17,9 @@ export const getAllCrops = async () => {
 export const getAllCropsShort = async () => {
   try {
     const response = await axios.get('/api/crops/short');
-    console.log('crop', response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -29,59 +30,41 @@ export const getCropById = async (id) => {
     const response = await axios.get(`/api/crops/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
 
 // create crop
-export const createCrop = async (crop, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const createCrop = async (crop) => {
   try {
-    const response = await axios.post('/api/crops', crop, config);
+    const response = await axios.post('/api/crops', crop);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
   }
 };
 
 // update crop
-export const updateCrop = async (id, crop, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const updateCrop = async (id, crop) => {
   try {
-    const response = await axios.put(`/api/crops/${id}`, crop, config);
-    console.log('crop', response.data);
+    const response = await axios.put(`/api/crops/${id}`, crop);
+
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
 
 // delete crop
-export const deleteCrop = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const deleteCrop = async (id) => {
   try {
-    const response = await axios.delete(`/api/crops/${id}`, config);
-    console.log('crop', response.data);
+    const response = await axios.delete(`/api/crops/${id}`);
+
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -93,24 +76,18 @@ export const searchCrop = async (name) => {
 
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
 
 // update crop as accept
-export const updateCropAccept = async (id, crop, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const updateCropAccept = async (id, crop) => {
   try {
-    const response = await axios.put(`/api/crops/${id}/accept`, crop, config);
+    const response = await axios.put(`/api/crops/${id}/accept`, crop);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
   }
 };
 
@@ -120,7 +97,7 @@ export const getCropsByAuthor = async (id) => {
     const response = await axios.get('/api/crops/author/' + id);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -131,7 +108,7 @@ export const getAllDiseases = async () => {
     const response = await axios.get('/api/diseases');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -142,7 +119,7 @@ export const getRandomDiseases = async () => {
     const response = await axios.get('/api/diseases/random');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -153,58 +130,40 @@ export const getDiseaseById = async (id) => {
     const response = await axios.get(`/api/diseases/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
 
 // create disease
-export const createDisease = async (disease, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const createDisease = async (disease) => {
   try {
-    const response = await axios.post('/api/diseases', disease, config);
+    const response = await axios.post('/api/diseases', disease);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
 
 // update disease
-export const updateDisease = async (id, disease, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const updateDisease = async (id, disease) => {
   try {
-    const response = await axios.put(`/api/diseases/${id}`, disease, config);
+    const response = await axios.put(`/api/diseases/${id}`, disease);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
 
 // delete disease
-export const deleteDisease = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const deleteDisease = async (id) => {
   try {
-    const response = await axios.delete(`/api/diseases/${id}`, config);
+    const response = await axios.delete(`/api/diseases/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -215,28 +174,18 @@ export const searchDisease = async (name) => {
     const response = await axios.get(`/api/diseases/search/q=${name}`);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
 
 // update disease as accept
-export const updateDiseaseAccept = async (id, crop, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const updateDiseaseAccept = async (id, crop) => {
   try {
-    const response = await axios.put(
-      `/api/diseases/${id}/accept`,
-      crop,
-      config
-    );
+    const response = await axios.put(`/api/diseases/${id}/accept`, crop);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
   }
 };
 
@@ -246,7 +195,7 @@ export const getDiseasesByAuthor = async (id) => {
     const response = await axios.get('/api/diseases/author/' + id);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -256,7 +205,7 @@ export const addRemoveCropBookmarks = async (id, userId) => {
     const response = await axios.put(`/api/crops/bookmark/${id}`, { userId });
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
   }
 };
 
@@ -267,7 +216,7 @@ export const addRemoveDiseaseBookmarks = async (id, userId) => {
     });
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
   }
 };
 
@@ -276,7 +225,7 @@ export const getCropBookmarksByUser = async (id) => {
     const response = await axios.get(`/api/crops/bookmarks/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -286,7 +235,7 @@ export const getDiseaseBookmarksByUser = async (id) => {
     const response = await axios.get('/api/diseases/bookmarks/' + id);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -296,7 +245,7 @@ export const getAllAcceptedCrops = async () => {
     const response = await axios.get('/api/crops/accepted');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -306,7 +255,7 @@ export const getAllAcceptedDiseases = async () => {
     const response = await axios.get('/api/diseases/accepted');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };

@@ -16,7 +16,7 @@ const ManageUsers = () => {
   const isMod = user && user.role === 'moderator';
 
   const getAllUsers = async () => {
-    const { data } = await getUsers(user.token);
+    const { data } = await getUsers();
     const filteredUsers = data.filter((u) => u._id !== user._id); // exclude current user
     setUsers(filteredUsers);
     setLoading(false);
@@ -27,7 +27,7 @@ const ManageUsers = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    await deleteUser(id, user.token);
+    await deleteUser(id);
 
     getAllUsers();
   };
@@ -81,7 +81,7 @@ const ManageUsers = () => {
       toastMsg = `Demoted to ${role}`;
     }
 
-    await updateUser({ _id: id, role: role }, user.token);
+    await updateUser({ _id: id, role: role });
 
     toast.success(toastMsg, {
       hideProgressBar: false,

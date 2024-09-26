@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 // user login
 export const login = async (email, password) => {
   try {
@@ -7,10 +9,9 @@ export const login = async (email, password) => {
       email,
       password,
     });
-    localStorage.setItem('userInfo', JSON.stringify(response.data));
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -30,142 +31,109 @@ export const register = async (
       email,
       password,
     });
-    localStorage.setItem('userInfo', JSON.stringify(response.data));
+
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
 // user logout
 export const logout = async () => {
+  try {
+    const response = await axios.get('/api/users/logout');
+    return response;
+  } catch (error) {
+    console.log('Error logging out user:', error);
+  }
   localStorage.removeItem('userInfo');
   document.location.href = '/';
 };
 
 // get users
-export const getUsers = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const getUsers = async () => {
   try {
-    const response = await axios.get('/api/users', config);
+    const response = await axios.get('/api/users');
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
 // get user details
-export const getUserDetails = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const getUserDetails = async () => {
   try {
-    const response = await axios.get(`/api/users/${id}`, config);
+    const response = await axios.get('/api/users/profile');
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching user details:', error);
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    const response = await axios.get('/api/users/logout');
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
 // update profile details
-export const updateProfile = async (user, token) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  };
+export const updateProfile = async (user) => {
   try {
-    const response = await axios.put('/api/users/profile', user, config);
-
-    localStorage.setItem('userInfo', JSON.stringify(response.data));
+    const response = await axios.put('/api/users/profile', user);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
 // update user
-export const updateUser = async (user, token) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  };
+export const updateUser = async (user) => {
   try {
-    const response = await axios.put(`/api/users/${user._id}`, user, config);
+    const response = await axios.put(`/api/users/${user._id}`, user);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
 // request role
-export const requestRole = async (user, token) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  };
+export const requestRole = async (user) => {
   try {
-    const response = await axios.put(
-      `/api/users/${user._id}/request`,
-      user,
-      config
-    );
+    const response = await axios.put(`/api/users/${user._id}/request`, user);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
-export const deleteUser = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const deleteUser = async (id) => {
   try {
-    const response = await axios.delete(`/api/users/${id}`, config);
+    const response = await axios.delete(`/api/users/${id}`);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
 // get site visits
-export const getSiteVisits = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const getSiteVisits = async () => {
   try {
-    const response = await axios.get('/api/visits', config);
+    const response = await axios.get('/api/visits');
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
 // get author info
-export const getAuthorInfo = async (id, token) => {
+export const getAuthorInfo = async (id) => {
   try {
     const response = await axios.get(`/api/users/${id}/author`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };

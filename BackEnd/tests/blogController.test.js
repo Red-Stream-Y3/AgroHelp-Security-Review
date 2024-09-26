@@ -56,8 +56,6 @@ describe('Blog Controller', () => {
     if (res) {
       blogId._id = res.body._id;
     }
-
-    console.log('blogID', blogId);
   });
 
   test('Should get all blogs - GET /api/blog', async () => {

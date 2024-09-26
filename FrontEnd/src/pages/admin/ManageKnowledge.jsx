@@ -20,8 +20,6 @@ const ManageKnowledge = () => {
   const [loading, setLoading] = useState(true);
   const [cropTable, setCropTable] = useState(false);
 
-  const user = JSON.parse(localStorage.getItem('userInfo'));
-
   const getCrops = async () => {
     const data = await getAllCrops();
     setCrops(data);
@@ -65,7 +63,7 @@ const ManageKnowledge = () => {
 
   const handleAccept = async (id, type) => {
     if (type === 'crop') {
-      await updateCropAccept(id, { _id: id, isAccepted: true }, user.token);
+      await updateCropAccept(id, { _id: id, isAccepted: true });
       const data = await getAllCrops();
       setCrops(data);
       toast.success(`Crop accepted to  publish`, {
@@ -77,7 +75,7 @@ const ManageKnowledge = () => {
         progress: undefined,
       });
     } else if (type === 'disease') {
-      await updateDiseaseAccept(id, { _id: id, isAccepted: true }, user.token);
+      await updateDiseaseAccept(id, { _id: id, isAccepted: true });
       const data = await getAllDiseases();
       setDiseases(data);
       toast.success(`Disease accepted to  publish`, {

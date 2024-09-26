@@ -11,6 +11,15 @@ const authUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
+    const token = generateToken(user._id);
+
+    res.cookie('token', token, {
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production', 
+      maxAge: 3600000, 
+      sameSite: 'Lax', 
+    });
+
     res.json({
       _id: user._id,
       username: user.username,
@@ -20,14 +29,14 @@ const authUser = asyncHandler(async (req, res) => {
       profilePic: user.profilePic,
       role: user.role,
       request: user.request,
-      token: generateToken(user._id),
     });
   } else {
     res.status(401).json({
-      error: 'Invalid email and password',
+      error: 'Invalid email or password',
     });
   }
 });
+
 
 // @desc    Register a new user
 // @route   POST /api/users
@@ -51,6 +60,15 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
+    const token = generateToken(user._id);
+
+    res.cookie('token', token, {
+      httpOnly: true, // Prevent JavaScript from accessing the cookie
+      secure: process.env.NODE_ENV === 'production', // Only send cookie over HTTPS in production
+      maxAge: 3600000, // 1 hour expiration
+      sameSite: 'Lax', // Adjust based on your needs
+    });
+
     res.status(201).json({
       _id: user._id,
       username: user.username,
@@ -60,13 +78,13 @@ const registerUser = asyncHandler(async (req, res) => {
       profilePic: user.profilePic,
       role: user.role,
       request: user.request,
-      token: generateToken(user._id),
     });
   } else {
     res.status(400);
     throw new Error('Invalid user data');
   }
 });
+
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
@@ -90,6 +108,23 @@ const getUserProfile = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+
+// @desc    Logout user & clear cookie
+// @route   POST /api/users/logout
+// @access  Private
+const logoutUser = asyncHandler(async (req, res) => {
+  res.cookie('token', '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 0, // Immediate expiration
+    sameSite: 'None', // Adjust based on your needs
+  });
+
+  res.status(200).json({
+    message: 'Logged out successfully',
+  });
+});
+
 
 // @desc    Update user profile
 // @route   PUT /api/users/profile
@@ -240,4 +275,5 @@ export {
   updateUser,
   requestRole,
   getAuthorInfoById,
+  logoutUser
 };

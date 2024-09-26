@@ -147,8 +147,8 @@ const searchBlogs = asyncHandler(async (req, res) => {
       res.status(404).json({ message: 'Blog not found' });
     }
   } catch (error) {
-    console.error(error);
-    res.status(400).json({ message: error.message });
+    res.status(404).json({ message: 'Blog not found' });
+    throw new Error(error.message);
   }
 });
 
@@ -277,8 +277,8 @@ const getBlogsByAuthor = asyncHandler(async (req, res) => {
       res.status(404).json({ message: 'No blogs found' });
     }
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: 'Blog not found' });
+    throw new Error(error.message);
   }
 });
 
@@ -324,8 +324,8 @@ const getLatestBlogs = asyncHandler(async (req, res) => {
       throw new Error('No blogs found');
     }
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: 'No blogs found' });
+    throw new Error(error.message);
   }
 });
 

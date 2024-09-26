@@ -22,11 +22,21 @@ import blogRoutes from './routes/blogRoutes.js';
 import cropRoutes from './routes/cropRoutes.js';
 import diseaseRoutes from './routes/diseaseRoutes.js';
 
+import passport from 'passport';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import User from './models/userModel.js';
+import './passport-setup.js';
+import https from 'https';
+import fs from 'fs';
+import logger from './controllers/logger.js';
+
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: findConfig('.env.dev') });
 }
 
 connectDB();
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -37,13 +47,18 @@ app.use(helmet());
 app.disable('x-powered-by');
 
 // Enable CORS
-app.use(cors());
-
-// Parse incoming request bodies
-app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
 
 // Parse cookies to use with CSRF tokens
 app.use(cookieParser());
+
+// Parse incoming request bodies
+app.use(bodyParser.json());
 
 // Enable CSRF protection for state-changing routes (POST, PUT, DELETE)
 const csrfProtection = csurf({
@@ -52,6 +67,67 @@ const csrfProtection = csurf({
     secure: process.env.NODE_ENV === 'production', // Only set the secure flag in production
   },
 });
+
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGO_URI,
+  collectionName: 'sessions',
+});
+
+app.use(
+  session({
+    secret: process.env.COOKIE_KEY,
+    saveUninitialized: false,
+    resave: false,
+    store: store,
+    cookie: { secure: process.env.NODE_ENV === 'production' },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+  })
+);
+
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: `${process.env.FRONTEND_URL}/login`,
+  }),
+  async (req, res) => {
+    const { googleId, username, email, firstName, lastName, profilePic } =
+      req.user;
+
+    let existingUser = await User.findOne({ googleId: googleId });
+
+    if (!existingUser) {
+      existingUser = new User({
+        username: username,
+        googleId: googleId,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        profilePic: profilePic || User.schema.path('profilePic').defaultValue,
+      });
+      await existingUser.save();
+    }
+
+    const googleAccessToken = req.user.accessToken;
+
+    res.cookie('token', googleAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Only send cookie over HTTPS in production
+      maxAge: 3600000, // 1 hour expiration
+      sameSite: 'Lax',
+    });
+
+    res.redirect(`${process.env.FRONTEND_URL}/home`);
+  }
+);
 
 // Use middleware to increment visitor count
 app.use(visitMiddleware);
@@ -90,11 +166,31 @@ if (process.env.NODE_ENV === 'production') {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+let PORT = process.env.PORT || 5000;
+let HTTPS_PORT = process.env.HTTPS_PORT || 5001;
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`.yellow.bold);
+    logger.info(`HTTP Server is Listening on port: ${PORT}`.yellow.bold);
   });
+
+  https
+    .createServer(
+      {
+        key:
+          process.env.SSL_PRIVATE_KEY ||
+          fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
+        cert:
+          process.env.SSL_CERTIFICATE ||
+          fs.readFileSync(path.join(__dirname, 'ssl', 'server.cert')),
+      },
+      app
+    )
+    .listen(HTTPS_PORT, () => {
+      logger.info(`AGROHELP SERVER STARTED!`.yellow.bold);
+      logger.info(
+        `HTTPS Server is listening on port: ${HTTPS_PORT}`.yellow.bold
+      );
+    });
 }
 
 export default app;
