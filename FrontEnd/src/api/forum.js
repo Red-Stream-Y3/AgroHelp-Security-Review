@@ -1,13 +1,6 @@
 import axios from 'axios';
 
-//user authorization config
-const getconfig = (user) => {
-  return {
-    headers: {
-      Authorization: `Bearer ${user.token}`,
-    },
-  };
-};
+axios.defaults.withCredentials = true;
 
 //server API url
 const BASE_URL = `/api/forums`;
@@ -58,7 +51,7 @@ export const createForum = async (user, forum, checkStatus) => {
         content: forum.content,
       },
     },
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -87,7 +80,7 @@ export const updateForum = async (user, forum, checkStatus) => {
         content: forum.content,
       },
     },
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -104,7 +97,7 @@ export const updateForum = async (user, forum, checkStatus) => {
 
 //delete forum
 export const deleteForum = async (user, id, checkStatus) => {
-  const res = await axios.delete(`${BASE_URL}/${id}`, getconfig(user));
+  const res = await axios.delete(`${BASE_URL}/${id}`, );
 
   if (res.data) {
     return res.data;
@@ -145,7 +138,7 @@ export const subscribeToForum = async (user, id, checkStatus) => {
       },
       forum: {},
     },
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -171,7 +164,7 @@ export const unsubscribeFromForum = async (user, id, checkStatus) => {
       },
       forum: {},
     },
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -191,7 +184,7 @@ export const getSubscribedForumsByUser = async (user, checkStatus) => {
   try {
     const res = await axios.get(
       `${BASE_URL}/subscribed/${user._id}`,
-      getconfig(user)
+      
     );
 
     if (res.data) {
@@ -220,7 +213,7 @@ export const likeForum = async (user, id, checkStatus) => {
       },
       forum: {},
     },
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -237,7 +230,7 @@ export const likeForum = async (user, id, checkStatus) => {
 
 //get liked forums
 export const getLikedForumsByUser = async (user, checkStatus) => {
-  const res = await axios.get(`${BASE_URL}/liked/${user._id}`, getconfig(user));
+  const res = await axios.get(`${BASE_URL}/liked/${user._id}`, );
 
   if (res.data) {
     return res.data;
@@ -262,7 +255,7 @@ export const dislikeForum = async (user, id, checkStatus) => {
       },
       forum: {},
     },
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -281,7 +274,7 @@ export const dislikeForum = async (user, id, checkStatus) => {
 export const getDislikedForumsByUser = async (user, checkStatus) => {
   const res = await axios.get(
     `${BASE_URL}/disliked/${user._id}`,
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -307,7 +300,7 @@ export const replyToForum = async (user, id, reply, checkStatus) => {
       },
       content: reply,
     },
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -326,7 +319,7 @@ export const replyToForum = async (user, id, reply, checkStatus) => {
 export const deleteReply = async (user, id, replyID, checkStatus) => {
   const res = await axios.delete(
     `${BASE_URL}/reply/${id}/${replyID}`,
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -352,7 +345,7 @@ export const editReply = async (user, id, replyID, reply, checkStatus) => {
       },
       content: reply,
     },
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -378,7 +371,7 @@ export const likeReply = async (user, id, replyID, checkStatus) => {
       },
       content: {},
     },
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -404,7 +397,7 @@ export const dislikeReply = async (user, id, replyID, checkStatus) => {
       },
       content: {},
     },
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -424,7 +417,7 @@ export const acceptReply = async (user, id, replyID, checkStatus) => {
   const res = await axios.post(
     `${BASE_URL}/reply/accept/${id}/${replyID}`,
     {},
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -444,7 +437,7 @@ export const markResolved = async (user, id, checkStatus) => {
   const res = await axios.post(
     `${BASE_URL}/resolve/${id}`,
     {},
-    getconfig(user)
+    
   );
 
   if (res.data) {
@@ -464,7 +457,7 @@ export const getForumsByUser = async (user, checkStatus) => {
   try {
     const res = await axios.get(
       `${BASE_URL}/myforums/${user._id}`,
-      getconfig(user)
+      
     );
 
     if (res.data) {

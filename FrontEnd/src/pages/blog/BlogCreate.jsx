@@ -1,6 +1,5 @@
 /** @format */
 
-import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPenNib } from "react-icons/fa";
@@ -11,9 +10,7 @@ import { createBlog } from "../../api/blog";
 import { toast } from "react-toastify";
 
 export default function BlogCreate() {
-  //const { user } = useGlobalContext();
-
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const { user } = useGlobalContext();
   const authorID = user._id;
 
   const isLogged = user; // Check if user exists
@@ -25,7 +22,7 @@ export default function BlogCreate() {
     author: authorID,
   });
 
-  const handleEditorChange = (content, editor) => {
+  const handleEditorChange = (content) => {
     setBlog({ ...blog, body: content });
   };
 

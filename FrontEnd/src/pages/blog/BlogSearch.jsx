@@ -21,7 +21,6 @@ const BlogSearch = () => {
         console.log(error);
       });
   }, [searchTerm]);
-  console.log(searchResults);
 
   if (isLoading) {
     return (

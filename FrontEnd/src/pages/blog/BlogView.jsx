@@ -38,14 +38,14 @@ export default function BlogView() {
   let userId;
   let userName;
 
-  const userDetails = JSON.parse(localStorage.getItem('userInfo'));
-  if (userDetails) {
-    userId = userDetails._id;
-    userName = userDetails.username;
+  const { user } = useGlobalContext();
+  if (user) {
+    userId = user._id;
+    userName = user.username;
   }
 
   useEffect(() => {
-    if (userDetails) {
+    if (user) {
       setIsLogged(true);
     }
   }, []);
@@ -57,7 +57,6 @@ export default function BlogView() {
         const blog = await getBlogById(id);
         setLoading(true);
         setBlog(blog);
-        //console.log(blog);
       };
       fetchBlog();
       setLoading(false);
@@ -170,10 +169,8 @@ export default function BlogView() {
     if (blog.bookmarked) {
       if (blog.bookmarked.length > 0 && blog.bookmarked.includes(userId)) {
         setBookmarked(true);
-        //console.log("bookmarked");
       } else {
         setBookmarked(false);
-        //console.log("not bookmarked");
       }
     }
   }, [blog]);

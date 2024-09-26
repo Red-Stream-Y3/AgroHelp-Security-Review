@@ -10,6 +10,7 @@ import {
   updateUser,
   requestRole,
   getAuthorInfoById,
+  logoutUser
 } from '../controllers/userController.js';
 import { protect, admin, adminMod } from '../middleware/authMiddleware.js';
 
@@ -28,5 +29,6 @@ router
   .put(protect, adminMod, updateUser);
 router.route('/:id/request').put(protect, requestRole);
 router.route('/:id/author').get(getAuthorInfoById);
+router.post('/logout', logoutUser);
 
 export default router;

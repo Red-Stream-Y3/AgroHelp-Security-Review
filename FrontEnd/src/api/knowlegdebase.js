@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 // get all crops
 export const getAllCrops = async () => {
   try {
@@ -15,7 +17,7 @@ export const getAllCrops = async () => {
 export const getAllCropsShort = async () => {
   try {
     const response = await axios.get('/api/crops/short');
-    console.log('crop', response.data);
+
     return response.data;
   } catch (error) {
     console.log(error);
@@ -35,15 +37,9 @@ export const getCropById = async (id) => {
 };
 
 // create crop
-export const createCrop = async (crop, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const createCrop = async (crop) => {
   try {
-    const response = await axios.post('/api/crops', crop, config);
+    const response = await axios.post('/api/crops', crop);
     return response;
   } catch (error) {
     console.log(error);
@@ -51,16 +47,10 @@ export const createCrop = async (crop, token) => {
 };
 
 // update crop
-export const updateCrop = async (id, crop, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const updateCrop = async (id, crop) => {
   try {
-    const response = await axios.put(`/api/crops/${id}`, crop, config);
-    console.log('crop', response.data);
+    const response = await axios.put(`/api/crops/${id}`, crop);
+
     return response.data;
   } catch (error) {
     console.log(error);
@@ -69,16 +59,10 @@ export const updateCrop = async (id, crop, token) => {
 };
 
 // delete crop
-export const deleteCrop = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const deleteCrop = async (id) => {
   try {
-    const response = await axios.delete(`/api/crops/${id}`, config);
-    console.log('crop', response.data);
+    const response = await axios.delete(`/api/crops/${id}`);
+
     return response.data;
   } catch (error) {
     console.log(error);
@@ -99,15 +83,9 @@ export const searchCrop = async (name) => {
 };
 
 // update crop as accept
-export const updateCropAccept = async (id, crop, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const updateCropAccept = async (id, crop) => {
   try {
-    const response = await axios.put(`/api/crops/${id}/accept`, crop, config);
+    const response = await axios.put(`/api/crops/${id}/accept`, crop);
     return response;
   } catch (error) {
     console.log(error);
@@ -159,15 +137,9 @@ export const getDiseaseById = async (id) => {
 };
 
 // create disease
-export const createDisease = async (disease, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const createDisease = async (disease) => {
   try {
-    const response = await axios.post('/api/diseases', disease, config);
+    const response = await axios.post('/api/diseases', disease);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -176,15 +148,9 @@ export const createDisease = async (disease, token) => {
 };
 
 // update disease
-export const updateDisease = async (id, disease, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const updateDisease = async (id, disease) => {
   try {
-    const response = await axios.put(`/api/diseases/${id}`, disease, config);
+    const response = await axios.put(`/api/diseases/${id}`, disease);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -193,15 +159,9 @@ export const updateDisease = async (id, disease, token) => {
 };
 
 // delete disease
-export const deleteDisease = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const deleteDisease = async (id) => {
   try {
-    const response = await axios.delete(`/api/diseases/${id}`, config);
+    const response = await axios.delete(`/api/diseases/${id}`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -221,18 +181,11 @@ export const searchDisease = async (name) => {
 };
 
 // update disease as accept
-export const updateDiseaseAccept = async (id, crop, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+export const updateDiseaseAccept = async (id, crop) => {
   try {
     const response = await axios.put(
       `/api/diseases/${id}/accept`,
-      crop,
-      config
+      crop
     );
     return response;
   } catch (error) {

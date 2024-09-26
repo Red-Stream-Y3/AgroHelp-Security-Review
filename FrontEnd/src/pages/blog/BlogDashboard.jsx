@@ -1,23 +1,22 @@
 /** @format */
 
-import React from "react";
 import { useState, useEffect } from "react";
-import { getAllBlogs, getAcceptedBlogs } from "../../api/blog";
+import { getAcceptedBlogs } from "../../api/blog";
 import {
   BlogContainer,
-  BlogBanner,
   PublicBlogCard,
   BlogSearchBar,
   Loader,
 } from "../../components";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../../context/ContextProvider";
 
 export default function BlogDashboard() {
   const [blogs, setBlogs] = useState([]);
   const [isLogged, setIsLogged] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const { user } = useGlobalContext();
 
   let userID = "";
 

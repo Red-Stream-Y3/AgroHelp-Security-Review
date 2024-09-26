@@ -4,6 +4,7 @@ import { getDiseaseById, addRemoveDiseaseBookmarks } from '../../api/knowlegdeba
 import { getAuthorInfo } from '../../api/user'
 import { Loader } from '../../components'
 import { BsBookmarkCheckFill, BsBookmarkDashFill } from 'react-icons/bs'
+import { useGlobalContext } from "../../context/ContextProvider";
 
 const Disease = () => {
   const { id } = useParams()
@@ -12,7 +13,7 @@ const Disease = () => {
   const [authorId, setAuthorId] = useState('')
   const [author, setAuthor] = useState({})
 
-  const user = JSON.parse(localStorage.getItem('userInfo'))
+  const { user } = useGlobalContext();
   
   let userId = null;
   if(user) {
@@ -40,19 +41,15 @@ const Disease = () => {
   }, [authorId])
 
     const checkBookmark = async () => {
-        console.log('calling check bookmark')
         if (disease.bookmarkedBy.includes(userId)) {
-            console.log('true')
             return true
         } else {
-            console.log('false')
             return false
         }
     }
 
     const handleBookmark = async (diseaseId) => {
         const response = await addRemoveDiseaseBookmarks(diseaseId, userId)
-        console.log('calling handle bookmark')
         if (response) {
             if (response.data.bookmarkedBy.includes(userId)) {
                 alert('Disease bookmarked')
@@ -62,8 +59,6 @@ const Disease = () => {
             }
         }
         setDisease(response.data)
-        console.log('set data')
-        console.log('response', response.data.bookmarkedBy)
     }
 
 
