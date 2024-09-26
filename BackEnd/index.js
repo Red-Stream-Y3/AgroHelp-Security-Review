@@ -22,6 +22,12 @@ import blogRoutes from './routes/blogRoutes.js';
 import cropRoutes from './routes/cropRoutes.js';
 import diseaseRoutes from './routes/diseaseRoutes.js';
 
+import passport from 'passport';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import User from './models/userModel.js';
+import './passport-setup.js';
+
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: findConfig('.env.dev') });
 }
@@ -52,6 +58,73 @@ const csrfProtection = csurf({
     secure: process.env.NODE_ENV === 'production', // Only set the secure flag in production
   },
 });
+
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGO_URI,
+  collectionName: "sessions",
+});
+
+app.use(
+  session({
+    secret: process.env.COOKIE_KEY,
+    saveUninitialized: false,
+    resave: false,
+    store: store,
+    cookie: { secure: process.env.NODE_ENV === "production" },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: `${process.env.FRONTEND_URL}/login`,
+  }),
+  async (req, res) => {
+    const { googleId, username, email, firstName, lastName, profilePic } =
+      req.user;
+    console.log("user", req.user);
+
+    let existingUser = await User.findOne({ googleId: googleId });
+    console.log("existingUser", existingUser);
+
+    if (!existingUser) {
+      existingUser = new User({
+        username: username,
+        googleId: googleId,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        profilePic: profilePic || User.schema.path("profilePic").defaultValue,
+      });
+      await existingUser.save();
+    }
+
+    const googleAccessToken = req.user.accessToken;
+
+    req.login(existingUser, (err) => {
+      if (err) return res.status(500).send(err);
+
+      res.redirect(
+        `${process.env.FRONTEND_URL}/login?googleAuthSuccess` +
+          `&username=${username}&email=${email}&firstName=${firstName}` +
+          `&lastName=${lastName}&profilePic=${profilePic}` +
+          `&role=${existingUser.role}&request=${existingUser.request}` +
+          `&token=${googleAccessToken}`
+      );
+    });
+  }
+);
 
 // Use middleware to increment visitor count
 app.use(visitMiddleware);
