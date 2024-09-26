@@ -7,9 +7,7 @@ import googleLogo from '../../assets/googleLogo.svg';
 import { IoIosEyeOff, IoIosEye } from 'react-icons/io';
 import { getUserDetails } from '../../api/user';
 
-
 const Login = () => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -18,19 +16,21 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const { setUser } = useGlobalContext();
-  const { user } = useGlobalContext();
-
+  const { setUser, user } = useGlobalContext();
   const navigate = useNavigate();
   const location = useLocation();
-
   const redirect = location.search ? location.search.split('=')[1] : '/';
 
   useEffect(() => {
     const checkUserSession = async () => {
       try {
-        const { data } = await getUserDetails();
-        setUser(data);
+        console.log('Checking user session...');
+        const { data } = await getUserDetails(); // Ensure this endpoint checks cookies
+        if (data) {
+          console.log('User session exists:', data);
+          setUser(data);
+          navigate(redirect);
+        }
       } catch (error) {
         console.log('Error getting user details:', error);
         setUser(null);
