@@ -20,8 +20,6 @@ const authUser = asyncHandler(async (req, res) => {
       sameSite: 'Lax', 
     });
 
-    console.log('from authUser', token);
-
     res.json({
       _id: user._id,
       username: user.username,
