@@ -43,7 +43,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     fetchUserDetails();
-  }, [server]);
+  }, [user]);
 
   return (
     <Context.Provider value={{ user, setUser, server, setServer, notify }}>

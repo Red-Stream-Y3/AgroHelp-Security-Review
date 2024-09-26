@@ -121,7 +121,7 @@ app.get(
       sameSite: 'Lax', 
     });
 
-    res.redirect(`${process.env.FRONTEND_URL}/login?googleAuthSuccess`);
+    res.redirect(`${process.env.FRONTEND_URL}/home`);
   }
 );
 
