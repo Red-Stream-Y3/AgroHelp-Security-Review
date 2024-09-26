@@ -1,17 +1,17 @@
 /** @format */
 
-import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getAuthorAllBlogs, deleteBlog } from "../../api/blog";
 import { BlogContainer, BlogCard } from "../../components";
 import { toast } from "react-toastify";
+import { useGlobalContext } from "../../context/ContextProvider";
 
 export default function MyBlogPosts() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const { user } = useGlobalContext();
 
   let userID;
   if (user && blogs) {

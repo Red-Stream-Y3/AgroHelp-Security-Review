@@ -73,7 +73,6 @@ const Home = () => {
     const fetchCrops = async () => {
       const crops = await getAllCropsShort();
       setCrops(crops);
-      //console.log("crops", crops)
       setIsLoading(false);
     };
     fetchCrops();
@@ -83,7 +82,7 @@ const Home = () => {
     const fetchDisease = async () => {
       const disease = await getRandomDiseases();
       setDiseases(disease);
-      //console.log("disease", disease)
+
       setIsLoading(false);
     };
     fetchDisease();
@@ -94,7 +93,6 @@ const Home = () => {
       const blogs = await getLatestBlogPosts();
       setBlogs(blogs);
       setIsLoading(false);
-      //console.log(blogs);
     };
     fetchBlogs();
   }, []);

@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import { getCropsByAuthor, getDiseasesByAuthor } from '../../api/knowlegdebase'
 import { CropTable, DiseaseTable, Loader } from '../../components'
 import { FaDisease, FaLeaf } from 'react-icons/fa';
+import { useGlobalContext } from "../../context/ContextProvider";
 
 
 const MyArticles = () => {
 
-  const user = JSON.parse(localStorage.getItem('userInfo'))
+  const { user } = useGlobalContext();
   const userId = user._id
 
   const [crops, setCrops] = useState([])
@@ -18,13 +19,11 @@ const MyArticles = () => {
   const getCrops = async () => {
     const data = await getCropsByAuthor(userId);
     setCrops(data);
-    console.log("crops", data)
   };
 
   const getDiseases = async () => {
     const data = await getDiseasesByAuthor(userId);
     setDiseases(data);
-    console.log('diseases', data)
   };
 
   useEffect(() => {

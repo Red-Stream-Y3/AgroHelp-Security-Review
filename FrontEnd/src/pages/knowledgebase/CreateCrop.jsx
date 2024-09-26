@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createCrop } from '../../api/knowlegdebase';
+import { useGlobalContext } from '../../context/ContextProvider';
 import { useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
 const CreateCrop = () => {
   const navigate = useNavigate();
-
-  const user = JSON.parse(localStorage.getItem('userInfo'));
-  const userId = user._id;
+  const { user } = useGlobalContext();
 
   const [crop, setCrop] = useState({
     cropName: '',
@@ -31,24 +30,25 @@ const CreateCrop = () => {
       storage: '',
     },
     otherInfo: '',
-    author: userId,
+    author: user?.id || '',
   });
 
   const handleChange = (e) => {
-    setCrop({
-      ...crop,
-      [e.target.name]: e.target.value,
+    const { name, value } = e.target;
+    setCrop(prevState => ({
+      ...prevState,
+      [name]: value,
       cropInfo: {
-        ...crop.cropInfo,
-        [e.target.name]: e.target.value,
+        ...prevState.cropInfo,
+        [name]: value,
       },
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const newCrop = await createCrop(crop, user.token);
+      await createCrop(crop);
       alert('Crop Created Successfully');
       navigate('/contributor/dashboard');
     } catch (error) {
@@ -110,15 +110,15 @@ const CreateCrop = () => {
       },
       otherInfo:
         'Beetroot is rich in antioxidants and is used in various culinary preparations such as salads, juices, and pickles.',
-      author: userId,
+      author: user?.id || '',
     });
   };
 
   const handleOpenWidget = () => {
     var myWidget = window.cloudinary.createUploadWidget(
       {
-        cloudName: 'dqyue23nj',
-        uploadPreset: 'agrohelp',
+        cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+        uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
         upload_single: true,
       },
       (error, result) => {

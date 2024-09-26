@@ -43,13 +43,17 @@ app.use(helmet());
 app.disable('x-powered-by');
 
 // Enable CORS
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+}));
+
+// Parse cookies to use with CSRF tokens
+app.use(cookieParser());
 
 // Parse incoming request bodies
 app.use(bodyParser.json());
 
-// Parse cookies to use with CSRF tokens
-app.use(cookieParser());
 
 // Enable CSRF protection for state-changing routes (POST, PUT, DELETE)
 const csrfProtection = csurf({
@@ -93,10 +97,8 @@ app.get(
   async (req, res) => {
     const { googleId, username, email, firstName, lastName, profilePic } =
       req.user;
-    console.log("user", req.user);
 
     let existingUser = await User.findOne({ googleId: googleId });
-    console.log("existingUser", existingUser);
 
     if (!existingUser) {
       existingUser = new User({
@@ -112,17 +114,14 @@ app.get(
 
     const googleAccessToken = req.user.accessToken;
 
-    req.login(existingUser, (err) => {
-      if (err) return res.status(500).send(err);
-
-      res.redirect(
-        `${process.env.FRONTEND_URL}/login?googleAuthSuccess` +
-          `&username=${username}&email=${email}&firstName=${firstName}` +
-          `&lastName=${lastName}&profilePic=${profilePic}` +
-          `&role=${existingUser.role}&request=${existingUser.request}` +
-          `&token=${googleAccessToken}`
-      );
+    res.cookie('token', googleAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Only send cookie over HTTPS in production
+      maxAge: 3600000, // 1 hour expiration
+      sameSite: 'Lax', 
     });
+
+    res.redirect(`${process.env.FRONTEND_URL}/login?googleAuthSuccess`);
   }
 );
 

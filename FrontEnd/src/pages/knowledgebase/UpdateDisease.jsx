@@ -8,8 +8,7 @@ const UpdateDisease = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  const user = JSON.parse(localStorage.getItem('userInfo'));
-
+  
   const [disease, setDisease] = useState({
     diseaseName: '',
     diseaseImage: [],
@@ -39,7 +38,7 @@ const UpdateDisease = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updated = await updateDisease(id, disease, user.token);
+    const updated = await updateDisease(id, disease);
     if (updated) {
       alert('Disease updated successfully');
       navigate('/contributor/dashboard');
@@ -65,13 +64,12 @@ const UpdateDisease = () => {
   const handleOpenWidget = () => {
     var myWidget = window.cloudinary.createUploadWidget(
       {
-        cloudName: 'dqyue23nj',
-        uploadPreset: 'agrohelp',
+        cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+        uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
         upload_single: true,
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
-          console.log('Done! Here is the image info: ', result.info.url);
           setDisease({
             ...disease,
             diseaseImage: [...disease.diseaseImage, result.info.url],

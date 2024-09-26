@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createDisease } from '../../api/knowlegdebase';
+import { useGlobalContext } from '../../context/ContextProvider';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
@@ -7,8 +8,7 @@ import DOMPurify from 'dompurify';
 const CreateDisease = () => {
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem('userInfo'));
-  const userId = user._id;
+  const { user } = useGlobalContext();
 
   const [disease, setDisease] = useState({
     diseaseName: '',
@@ -20,7 +20,7 @@ const CreateDisease = () => {
     diseaseCrops: [],
     diseaseType: '',
     diseaseStatus: '',
-    author: userId,
+    author: user?.id
   });
 
   const handleChange = (e) => {
@@ -33,7 +33,7 @@ const CreateDisease = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await createDisease(disease, user.token);
+      await createDisease(disease);
       alert('Disease created successfully');
       navigate('/contributor/dashboard');
     } catch (error) {
@@ -59,13 +59,12 @@ const CreateDisease = () => {
   const handleOpenWidget = () => {
     var myWidget = window.cloudinary.createUploadWidget(
       {
-        cloudName: 'dqyue23nj',
-        uploadPreset: 'agrohelp',
+        cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+        uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
         upload_single: true,
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
-          console.log('Done! Here is the image info: ', result.info.url);
           setDisease({
             ...disease,
             diseaseImage: [...disease.diseaseImage, result.info.url],
@@ -98,7 +97,7 @@ const CreateDisease = () => {
       diseaseCrops: ['Apple', 'Grape', 'Peach', 'Pear', 'Plum'],
       diseaseType: 'Fungal',
       diseaseStatus: 'Active',
-      author: userId,
+      author: user?.id,
       diseaseImage: [],
     });
   };

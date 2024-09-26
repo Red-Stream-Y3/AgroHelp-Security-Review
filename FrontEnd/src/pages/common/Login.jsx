@@ -5,6 +5,8 @@ import { login } from '../../api/user';
 import logo from '../../assets/logo.svg';
 import googleLogo from '../../assets/googleLogo.svg';
 import { IoIosEyeOff, IoIosEye } from 'react-icons/io';
+import { getUserDetails } from '../../api/user';
+
 
 const Login = () => {
 
@@ -25,33 +27,21 @@ const Login = () => {
   const redirect = location.search ? location.search.split('=')[1] : '/';
 
   useEffect(() => {
-    if (user) {
-      navigate(redirect);
+    const checkUserSession = async () => {
+      try {
+        const { data } = await getUserDetails();
+        setUser(data);
+      } catch (error) {
+        console.log('Error getting user details:', error);
+        setUser(null);
+      }
+    };
+  
+    if (!user) {
+      checkUserSession();
     }
-    const params = new URLSearchParams(location.search);
-    const token = params.get('token');
-    const username = params.get('username');
-    const email = params.get('email');
-    const firstName = params.get('firstName');
-    const lastName = params.get('lastName');
-    const profilePic = params.get('profilePic');
-
-    if (token) {
-      const userData = {
-        token,
-        username,
-        email,
-        firstName,
-        lastName,
-        profilePic,
-      };
-
-      localStorage.setItem('userInfo', JSON.stringify(userData));
-      setUser(userData);
-
-      navigate('/home');
-    }
-  }, [user, location, redirect, navigate, setUser]);
+  }, [user, redirect, navigate, setUser]);
+  
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -60,7 +50,6 @@ const Login = () => {
       const { data } = await login(email, password);
       if (data) {
         setUser(data);
-        localStorage.setItem('userInfo', JSON.stringify(data));
         navigate(redirect);
       }
     }

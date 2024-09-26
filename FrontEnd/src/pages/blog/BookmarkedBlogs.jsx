@@ -1,19 +1,18 @@
 /** @format */
 
-import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getBookmarkedBlogs, handleBlogBookamrk } from "../../api/blog";
+import { getBookmarkedBlogs } from "../../api/blog";
 import { BlogContainer, PublicBlogCard } from "../../components";
 import { BsBookmarkCheckFill } from "react-icons/bs";
-import { toast } from "react-toastify";
+import { useGlobalContext } from "../../context/ContextProvider";
 
 export default function BookmarkedBlogs() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState("");
 
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const { user } = useGlobalContext();
 
   let userID = "";
   if (user && blogs) {
@@ -26,7 +25,6 @@ export default function BookmarkedBlogs() {
       const blogs = await getBookmarkedBlogs(userID);
       setBlogs(blogs);
       setId(blogs._id);
-      //console.log(blogs);
     };
     fetchBoookmarkedBlogs();
   }, [userID]);
