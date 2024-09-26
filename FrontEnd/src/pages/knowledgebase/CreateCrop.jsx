@@ -35,7 +35,7 @@ const CreateCrop = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCrop(prevState => ({
+    setCrop((prevState) => ({
       ...prevState,
       [name]: value,
       cropInfo: {
@@ -47,16 +47,14 @@ const CreateCrop = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    e.preventDefault();
     try {
       await createCrop(crop);
       alert('Crop Created Successfully');
       navigate('/contributor/dashboard');
     } catch (error) {
-      console.log('error', error.message);
+      console.log('error', error);
       alert('Crop Creation Failed');
     }
-  };
   };
 
   const handleCancel = () => {
@@ -84,17 +82,9 @@ const CreateCrop = () => {
       otherInfo: '',
     });
   };
-    });
-  };
 
   const handleMock = () => {
     setCrop({
-      cropName: 'Beetroot',
-      scientificName: 'Beta vulgaris',
-      cropFamily: 'Amaranthaceae',
-      cropType: 'Root vegetable',
-      cropIntro:
-        'Beetroot is a nutritious root vegetable known for its vibrant color and sweet taste.',
       cropName: 'Beetroot',
       scientificName: 'Beta vulgaris',
       cropFamily: 'Amaranthaceae',
@@ -133,7 +123,7 @@ const CreateCrop = () => {
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
-          // console.log('Done! Here is the image info: ', result.info);
+          console.log('Done! Here is the image info: ', result.info);
           setCrop({
             ...crop,
             cropImage: result.info.url,
@@ -156,8 +146,8 @@ const CreateCrop = () => {
             Mock Data
           </button>
           <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="cropName" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='cropName' className='block mb-1'>
                 Crop Name
               </label>
               <input
@@ -167,13 +157,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropName}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="scientificName" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='scientificName' className='block mb-1'>
                 Scientific Name
               </label>
               <input
@@ -183,13 +173,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.scientificName}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="cropFamily" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='cropFamily' className='block mb-1'>
                 Crop Family
               </label>
               <input
@@ -199,13 +189,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropFamily}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="cropType" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='cropType' className='block mb-1'>
                 Crop Type
               </label>
               <input
@@ -215,13 +205,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropType}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="cropIntro" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='cropIntro' className='block mb-1'>
                 Crop Introduction
               </label>
               <textarea
@@ -231,13 +221,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropIntro}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="cropImage" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='cropImage' className='block mb-1'>
                 Crop Image
               </label>
               <button
@@ -249,13 +239,13 @@ const CreateCrop = () => {
               <br />
               <img
                 src={DOMPurify.sanitize(crop.cropImage)}
-                alt="crop"
-                className="w-44 h-36 bg-lightbg rounded-xl m-5"
+                alt='crop'
+                className='w-44 h-36 bg-lightbg rounded-xl m-5'
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="climate" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='climate' className='block mb-1'>
                 Climate
               </label>
               <textarea
@@ -265,13 +255,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.climate}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="season" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='season' className='block mb-1'>
                 Crop Season
               </label>
               <textarea
@@ -281,13 +271,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.season}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="seedType" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='seedType' className='block mb-1'>
                 Seed Type
               </label>
               <textarea
@@ -297,13 +287,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.seedType}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="soil" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='soil' className='block mb-1'>
                 Soil Type
               </label>
               <textarea
@@ -313,13 +303,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.soil}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="fieldPreparation" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='fieldPreparation' className='block mb-1'>
                 Field Preparation
               </label>
               <textarea
@@ -329,13 +319,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.fieldPreparation}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="fertilizer" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='fertilizer' className='block mb-1'>
                 Fertilizer
               </label>
               <textarea
@@ -345,13 +335,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.fertilizer}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="irrigation" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='irrigation' className='block mb-1'>
                 Irrigation
               </label>
               <textarea
@@ -361,13 +351,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.irrigation}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="weedControl" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='weedControl' className='block mb-1'>
                 Weed Control
               </label>
               <textarea
@@ -377,13 +367,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.weedControl}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="pestControl" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='pestControl' className='block mb-1'>
                 Pest Control
               </label>
               <textarea
@@ -393,13 +383,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.pestControl}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="harvesting" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='harvesting' className='block mb-1'>
                 Harvesting
               </label>
               <textarea
@@ -409,13 +399,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.harvesting}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="yield" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='yield' className='block mb-1'>
                 Yield
               </label>
               <textarea
@@ -425,13 +415,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.yield}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="storage" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='storage' className='block mb-1'>
                 Storage
               </label>
               <textarea
@@ -441,13 +431,13 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.cropInfo.storage}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="otherInfo" className="block mb-1">
+            <div className='mb-3'>
+              <label htmlFor='otherInfo' className='block mb-1'>
                 Other Info
               </label>
               <textarea
@@ -457,7 +447,7 @@ const CreateCrop = () => {
                 className='w-full p-2 border border-gray-300 rounded outline-none focus:ring-1 focus:ring-primarylight bg-lightbg text-white'
                 value={crop.otherInfo}
                 onChange={handleChange}
-                pattern="[A-Za-z0-9]+"
+                pattern='[A-Za-z0-9]+'
                 required
               />
             </div>

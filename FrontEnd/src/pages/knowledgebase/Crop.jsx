@@ -4,6 +4,7 @@ import { getAuthorInfo } from '../../api/user';
 import { useParams } from 'react-router-dom';
 import { Loader } from '../../components';
 import { BsBookmarkCheckFill, BsBookmarkDashFill } from 'react-icons/bs';
+import { useGlobalContext } from '../../context/ContextProvider';
 
 const Crop = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const Crop = () => {
   const [authorId, setAuthorId] = useState('');
   const [author, setAuthor] = useState({});
 
-  const user = JSON.parse(localStorage.getItem('userInfo'));
+  const { user } = useGlobalContext();
 
   let userId = null;
   if (user) {

@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { updateCrop, getCropById } from '../../api/knowlegdebase';
 import { Loader } from '../../components';
+import DOMPurify from 'dompurify';
 
 const UpdateCrop = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const user = JSON.parse(localStorage.getItem('userInfo'));
+
   const [crop, setCrop] = useState({
     cropName: '',
     scientificName: '',
@@ -54,7 +55,7 @@ const UpdateCrop = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updated = await updateCrop(id, crop, user.token);
+    const updated = await updateCrop(id, crop);
     if (updated) {
       alert('Crop updated successfully');
       navigate('/contributor/dashboard');
@@ -92,8 +93,8 @@ const UpdateCrop = () => {
   const handleOpenWidget = () => {
     var myWidget = window.cloudinary.createUploadWidget(
       {
-        cloudName: 'dqyue23nj',
-        uploadPreset: 'agrohelp',
+        cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+        uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
         upload_single: true,
       },
       (error, result) => {
@@ -215,7 +216,7 @@ const UpdateCrop = () => {
               </button>
               <br />
               <img
-                src={crop.cropImage}
+                src={DOMPurify.sanitize(crop.cropImage)}
                 alt='crop'
                 className='w-44 h-36 bg-lightbg rounded-xl m-5'
               />

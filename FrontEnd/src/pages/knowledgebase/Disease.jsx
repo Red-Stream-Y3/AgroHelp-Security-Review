@@ -7,6 +7,7 @@ import {
 import { getAuthorInfo } from '../../api/user';
 import { Loader } from '../../components';
 import { BsBookmarkCheckFill, BsBookmarkDashFill } from 'react-icons/bs';
+import { useGlobalContext } from '../../context/ContextProvider';
 
 const Disease = () => {
   const { id } = useParams();
@@ -15,7 +16,7 @@ const Disease = () => {
   const [authorId, setAuthorId] = useState('');
   const [author, setAuthor] = useState({});
 
-  const user = JSON.parse(localStorage.getItem('userInfo'));
+  const { user } = useGlobalContext();
 
   let userId = null;
   if (user) {

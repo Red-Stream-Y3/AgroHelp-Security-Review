@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { updateDisease, getDiseaseById } from '../../api/knowlegdebase';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import DOMPurify from 'dompurify';
 
 const UpdateDisease = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  const user = JSON.parse(localStorage.getItem('userInfo'));
 
   const [disease, setDisease] = useState({
     diseaseName: '',
@@ -38,7 +38,7 @@ const UpdateDisease = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updated = await updateDisease(id, disease, user.token);
+    const updated = await updateDisease(id, disease);
     if (updated) {
       alert('Disease updated successfully');
       navigate('/contributor/dashboard');
@@ -64,8 +64,8 @@ const UpdateDisease = () => {
   const handleOpenWidget = () => {
     var myWidget = window.cloudinary.createUploadWidget(
       {
-        cloudName: 'dqyue23nj',
-        uploadPreset: 'agrohelp',
+        cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+        uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
         upload_single: true,
       },
       (error, result) => {
@@ -126,7 +126,7 @@ const UpdateDisease = () => {
                 {disease.diseaseImage.map((image, index) => (
                   <div key={index} className='relative m-2'>
                     <img
-                      src={image}
+                      src={DOMPurify.sanitize(image)}
                       alt='crop'
                       className='w-44 h-36 object-cover rounded-xl'
                     />

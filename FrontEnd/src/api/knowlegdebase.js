@@ -182,10 +182,7 @@ export const searchDisease = async (name) => {
 // update disease as accept
 export const updateDiseaseAccept = async (id, crop) => {
   try {
-    const response = await axios.put(
-      `/api/diseases/${id}/accept`,
-      crop
-    );
+    const response = await axios.put(`/api/diseases/${id}/accept`, crop);
     return response;
   } catch (error) {
     console.log('KNOWLEDGEBASE', error.message);
@@ -261,6 +258,4 @@ export const getAllAcceptedDiseases = async () => {
     console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
-};
-
 };
