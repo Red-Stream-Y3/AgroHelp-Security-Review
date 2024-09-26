@@ -35,6 +35,8 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: findConfig('.env.dev') });
 }
 
+const __dirname = path.resolve();
+
 connectDB();
 
 const app = express();
@@ -46,17 +48,18 @@ app.use(helmet());
 app.disable('x-powered-by');
 
 // Enable CORS
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
 
 // Parse cookies to use with CSRF tokens
 app.use(cookieParser());
 
 // Parse incoming request bodies
 app.use(bodyParser.json());
-
 
 // Enable CSRF protection for state-changing routes (POST, PUT, DELETE)
 const csrfProtection = csurf({
@@ -68,7 +71,7 @@ const csrfProtection = csurf({
 
 const store = MongoStore.create({
   mongoUrl: process.env.MONGO_URI,
-  collectionName: "sessions",
+  collectionName: 'sessions',
 });
 
 app.use(
@@ -77,24 +80,23 @@ app.use(
     saveUninitialized: false,
     resave: false,
     store: store,
-    cookie: { secure: process.env.NODE_ENV === "production" },
+    cookie: { secure: process.env.NODE_ENV === 'production' },
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.get(
-  "/auth/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
   })
 );
 
 app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
+  '/auth/google/callback',
+  passport.authenticate('google', {
     failureRedirect: `${process.env.FRONTEND_URL}/login`,
   }),
   async (req, res) => {
@@ -110,7 +112,7 @@ app.get(
         email: email,
         firstName: firstName,
         lastName: lastName,
-        profilePic: profilePic || User.schema.path("profilePic").defaultValue,
+        profilePic: profilePic || User.schema.path('profilePic').defaultValue,
       });
       await existingUser.save();
     }
@@ -121,7 +123,7 @@ app.get(
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // Only send cookie over HTTPS in production
       maxAge: 3600000, // 1 hour expiration
-      sameSite: 'Lax', 
+      sameSite: 'Lax',
     });
 
     res.redirect(`${process.env.FRONTEND_URL}/login?googleAuthSuccess`);
