@@ -21,23 +21,22 @@ import forumRoutes from './routes/forumRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import cropRoutes from './routes/cropRoutes.js';
 import diseaseRoutes from './routes/diseaseRoutes.js';
-import logger from './controllers/logger.js';
-import https from 'https';
-import fs from 'fs';
 
 import passport from 'passport';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import User from './models/userModel.js';
 import './passport-setup.js';
+import https from 'https';
+import fs from 'fs';
+import logger from './controllers/logger.js';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: findConfig('.env.dev') });
 }
 
-const __dirname = path.resolve();
-
 connectDB();
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -168,10 +167,10 @@ app.use(notFound);
 app.use(errorHandler);
 
 let PORT = process.env.PORT || 5000;
-let HTTP_PORT = process.env.HTTP_PORT || 5001;
+let HTTPS_PORT = process.env.HTTPS_PORT || 5001;
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(HTTP_PORT, () => {
-    logger.info(`HTTP Server is Listening on port: ${HTTP_PORT}`.yellow.bold);
+  app.listen(PORT, () => {
+    logger.info(`HTTP Server is Listening on port: ${PORT}`.yellow.bold);
   });
 
   https
@@ -186,9 +185,11 @@ if (process.env.NODE_ENV !== 'test') {
       },
       app
     )
-    .listen(PORT, () => {
+    .listen(HTTPS_PORT, () => {
       logger.info(`AGROHELP SERVER STARTED!`.yellow.bold);
-      logger.info(`HTTPS Server is listening on port: ${PORT}`.yellow.bold);
+      logger.info(
+        `HTTPS Server is listening on port: ${HTTPS_PORT}`.yellow.bold
+      );
     });
 }
 
