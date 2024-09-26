@@ -8,7 +8,7 @@ export const getAllCrops = async () => {
     const response = await axios.get('/api/crops');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -17,10 +17,9 @@ export const getAllCrops = async () => {
 export const getAllCropsShort = async () => {
   try {
     const response = await axios.get('/api/crops/short');
-
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -31,7 +30,7 @@ export const getCropById = async (id) => {
     const response = await axios.get(`/api/crops/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -42,7 +41,7 @@ export const createCrop = async (crop) => {
     const response = await axios.post('/api/crops', crop);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
   }
 };
 
@@ -53,7 +52,7 @@ export const updateCrop = async (id, crop) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -65,7 +64,7 @@ export const deleteCrop = async (id) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -77,7 +76,7 @@ export const searchCrop = async (name) => {
 
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -88,7 +87,7 @@ export const updateCropAccept = async (id, crop) => {
     const response = await axios.put(`/api/crops/${id}/accept`, crop);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
   }
 };
 
@@ -98,7 +97,7 @@ export const getCropsByAuthor = async (id) => {
     const response = await axios.get('/api/crops/author/' + id);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -109,7 +108,7 @@ export const getAllDiseases = async () => {
     const response = await axios.get('/api/diseases');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -120,7 +119,7 @@ export const getRandomDiseases = async () => {
     const response = await axios.get('/api/diseases/random');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -131,7 +130,7 @@ export const getDiseaseById = async (id) => {
     const response = await axios.get(`/api/diseases/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -142,7 +141,7 @@ export const createDisease = async (disease) => {
     const response = await axios.post('/api/diseases', disease);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -153,7 +152,7 @@ export const updateDisease = async (id, disease) => {
     const response = await axios.put(`/api/diseases/${id}`, disease);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -164,7 +163,7 @@ export const deleteDisease = async (id) => {
     const response = await axios.delete(`/api/diseases/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -175,7 +174,7 @@ export const searchDisease = async (name) => {
     const response = await axios.get(`/api/diseases/search/q=${name}`);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -183,13 +182,10 @@ export const searchDisease = async (name) => {
 // update disease as accept
 export const updateDiseaseAccept = async (id, crop) => {
   try {
-    const response = await axios.put(
-      `/api/diseases/${id}/accept`,
-      crop
-    );
+    const response = await axios.put(`/api/diseases/${id}/accept`, crop);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
   }
 };
 
@@ -199,7 +195,7 @@ export const getDiseasesByAuthor = async (id) => {
     const response = await axios.get('/api/diseases/author/' + id);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -209,7 +205,7 @@ export const addRemoveCropBookmarks = async (id, userId) => {
     const response = await axios.put(`/api/crops/bookmark/${id}`, { userId });
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
   }
 };
 
@@ -220,7 +216,7 @@ export const addRemoveDiseaseBookmarks = async (id, userId) => {
     });
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
   }
 };
 
@@ -229,7 +225,7 @@ export const getCropBookmarksByUser = async (id) => {
     const response = await axios.get(`/api/crops/bookmarks/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -239,7 +235,7 @@ export const getDiseaseBookmarksByUser = async (id) => {
     const response = await axios.get('/api/diseases/bookmarks/' + id);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -249,7 +245,7 @@ export const getAllAcceptedCrops = async () => {
     const response = await axios.get('/api/crops/accepted');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };
@@ -259,7 +255,7 @@ export const getAllAcceptedDiseases = async () => {
     const response = await axios.get('/api/diseases/accepted');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('KNOWLEDGEBASE', error.message);
     return [];
   }
 };

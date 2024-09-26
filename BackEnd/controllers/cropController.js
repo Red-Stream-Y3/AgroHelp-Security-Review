@@ -10,8 +10,8 @@ const getCrops = asyncHandler(async (req, res) => {
     const crops = await Crop.find({}).populate('author', 'firstName lastName');
     res.json(crops);
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -28,8 +28,8 @@ const getCropById = asyncHandler(async (req, res) => {
       throw new Error('Crop not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -41,14 +41,13 @@ const getAllAcceptedCrops = asyncHandler(async (req, res) => {
     const crops = await Crop.find({ isAccepted: true });
     if (crops) {
       res.json(crops);
-      console.log('crops', crops);
     } else {
       res.status(404);
       throw new Error('Crops not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -65,8 +64,8 @@ const deleteCrop = asyncHandler(async (req, res) => {
       throw new Error('Crop not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -116,8 +115,8 @@ const createCrop = asyncHandler(async (req, res) => {
 
     res.status(201).json(createdCrop);
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -156,8 +155,8 @@ const updateCrop = asyncHandler(async (req, res) => {
       throw new Error('Crop not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -177,8 +176,8 @@ const searchCrops = asyncHandler(async (req, res) => {
       res.status(404).json({ message: 'Crops not found' });
     }
   } catch (error) {
-    console.error(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -197,6 +196,7 @@ const getShortCrops = asyncHandler(async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -231,8 +231,8 @@ const getCropsByAuthor = asyncHandler(async (req, res) => {
       throw new Error('Crops not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -248,13 +248,18 @@ const addRemoveCropBookmark = asyncHandler(async (req, res) => {
         crop.bookmarkedBy.filter(
           (bookmark) => bookmark.toString() === req.body.userId.toString()
         ).length > 0
-      ) {
-        crop.bookmarkedBy = crop.bookmarkedBy.filter(
-          (bookmark) => bookmark.toString() !== req.body.userId.toString()
-        );
-      } else {
-        crop.bookmarkedBy.push(req.body.userId);
-      }
+      )
+        if (
+          crop.bookmarkedBy.filter(
+            (bookmark) => bookmark.toString() === req.body.userId.toString()
+          ).length > 0
+        ) {
+          crop.bookmarkedBy = crop.bookmarkedBy.filter(
+            (bookmark) => bookmark.toString() !== req.body.userId.toString()
+          );
+        } else {
+          crop.bookmarkedBy.push(req.body.userId);
+        }
       const updatedCrop = await crop.save();
       res.json(updatedCrop);
     } else {
@@ -262,8 +267,8 @@ const addRemoveCropBookmark = asyncHandler(async (req, res) => {
       throw new Error('Crop not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 
@@ -277,8 +282,8 @@ const getCropBookmarksByUser = asyncHandler(async (req, res) => {
       throw new Error('Crops not found');
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: error.message });
+    throw new Error(error.message);
   }
 });
 

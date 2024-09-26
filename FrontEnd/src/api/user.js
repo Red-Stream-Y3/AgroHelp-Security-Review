@@ -11,7 +11,7 @@ export const login = async (email, password) => {
     });
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -34,13 +34,13 @@ export const register = async (
 
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
 // user logout
 export const logout = async () => {
-    try {
+  try {
     const response = await axios.get('/api/users/logout');
     return response;
   } catch (error) {
@@ -56,7 +56,7 @@ export const getUsers = async () => {
     const response = await axios.get('/api/users');
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -75,10 +75,9 @@ export const logoutUser = async () => {
     const response = await axios.get('/api/users/logout');
     return response;
   } catch (error) {
-    console.log('Error logging out user:', error);
+    console.log('USER', error.message);
   }
 };
-
 
 // update profile details
 export const updateProfile = async (user) => {
@@ -86,7 +85,7 @@ export const updateProfile = async (user) => {
     const response = await axios.put('/api/users/profile', user);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -96,20 +95,17 @@ export const updateUser = async (user) => {
     const response = await axios.put(`/api/users/${user._id}`, user);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
 // request role
 export const requestRole = async (user) => {
   try {
-    const response = await axios.put(
-      `/api/users/${user._id}/request`,
-      user
-    );
+    const response = await axios.put(`/api/users/${user._id}/request`, user);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -118,7 +114,7 @@ export const deleteUser = async (id) => {
     const response = await axios.delete(`/api/users/${id}`);
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -128,7 +124,7 @@ export const getSiteVisits = async () => {
     const response = await axios.get('/api/visits');
     return response;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };
 
@@ -138,6 +134,6 @@ export const getAuthorInfo = async (id) => {
     const response = await axios.get(`/api/users/${id}/author`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('USER', error.message);
   }
 };

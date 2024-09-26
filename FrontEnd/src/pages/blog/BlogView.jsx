@@ -61,7 +61,7 @@ export default function BlogView() {
       fetchBlog();
       setLoading(false);
     } catch (error) {
-      console.log('error', error);
+      console.log('error', error.message);
     }
   }, [id]);
 
@@ -186,7 +186,7 @@ export default function BlogView() {
   };
 
   return (
-    <div className="my-4">
+    <div className='my-4'>
       <BlogContainer>
         <BlogHeader
           title={blog.title}
@@ -196,87 +196,83 @@ export default function BlogView() {
           tags={tagsAsString}
           authorId={authorID}
         />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-white'>
           <div dangerouslySetInnerHTML={{ __html: body }} />
         </div>
         <br />
         <br />
-        <hr className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-green-300" />
+        <hr className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-green-300' />
 
         {/* Likes and Bookmarks */}
-        <div className="flex items-center justify-center pb-6 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-x-8">
-          <div className="flex items-center space-x-2">
+        <div className='flex items-center justify-center pb-6 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-x-8'>
+          <div className='flex items-center space-x-2'>
             <button
               onClick={handleLike}
-              className="transition-all text-blue-400 ease-in-out active:scale-110 hover:bg-blue-100 rounded-full px-2 py-2"
-            >
+              className='transition-all text-blue-400 ease-in-out active:scale-110 hover:bg-blue-100 rounded-full px-2 py-2'>
               {liked ? <AiFillLike size={24} /> : <AiOutlineLike size={24} />}
             </button>
-            <div className="text-sm font-bold text-gray-200">{numLikes}</div>
+            <div className='text-sm font-bold text-gray-200'>{numLikes}</div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className='flex items-center space-x-2'>
             <button
               onClick={handleDisLike}
-              className="transition-all text-red-400 ease-in-out active:scale-110 hover:bg-red-200 rounded-full px-2 py-2"
-            >
+              className='transition-all text-red-400 ease-in-out active:scale-110 hover:bg-red-200 rounded-full px-2 py-2'>
               {disLiked ? (
                 <AiFillDislike size={24} />
               ) : (
                 <AiOutlineDislike size={24} />
               )}
             </button>
-            <div className="text-gray-200 text-sm font-bald">{numDislikes}</div>
+            <div className='text-gray-200 text-sm font-bald'>{numDislikes}</div>
           </div>
 
-          <div className="flex items-center">
+          <div className='flex items-center'>
             <button onClick={handleBookmark}>
               {bookmarked ? (
-                <BsBookmarkCheckFill size={24} className="text-yellow-300" />
+                <BsBookmarkCheckFill size={24} className='text-yellow-300' />
               ) : (
-                <BsBookmarkPlus size={24} className="text-gray-100" />
+                <BsBookmarkPlus size={24} className='text-gray-100' />
               )}
             </button>
           </div>
         </div>
 
         {/* likes ends here */}
-        <hr className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-green-300" />
+        <hr className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-green-300' />
 
         {/* Comment Section */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 p-4">
-          <h2 className="text-2xl font-bold mb-4 text-white">Comments</h2>
+        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 p-4'>
+          <h2 className='text-2xl font-bold mb-4 text-white'>Comments</h2>
 
           {isLogged && (
             <form onSubmit={handleCommentSubmit}>
               <input
-                type="text"
-                className="border border-gray-400 rounded py-2 px-3 mb-2 w-full bg-lightbg text-white"
-                name="text"
-                placeholder="Write a comment..."
+                type='text'
+                className='border border-gray-400 rounded py-2 px-3 mb-2 w-full bg-lightbg text-white'
+                name='text'
+                placeholder='Write a comment...'
                 value={comment.text}
                 onChange={handleCommentChange}
               />
               <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-1 rounded"
-              >
+                type='submit'
+                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-1 rounded'>
                 Post Comment
               </button>
-              <hr className="my-5" />
+              <hr className='my-5' />
             </form>
           )}
 
-          <div className="mt-4">
+          <div className='mt-4'>
             {blog.comments &&
               blog.comments.map(
                 (comment, index) =>
                   comment.isPosted && (
                     <div
                       key={index}
-                      className="bg-darkbg bg-opacity-70 text-white p-2 rounded mb-2"
-                    >
-                      <div className="font-bold mb-1">@{comment.userName}</div>
+                      className='bg-darkbg bg-opacity-70 text-white p-2 rounded mb-2'>
+                      <div className='font-bold mb-1'>@{comment.userName}</div>
                       <div>{comment.text}</div>
                     </div>
                   )
