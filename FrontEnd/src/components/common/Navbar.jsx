@@ -13,7 +13,7 @@ import {
   FaLock,
   FaPen,
 } from 'react-icons/fa';
-import { ImLeaf } from 'react-icons/im';
+import logoLeaf from '../../assets/logoLeaf.svg';
 import { HiMenu, HiOutlineX } from 'react-icons/hi';
 import { useGlobalContext } from '../../context/ContextProvider';
 import { logout } from '../../api/user';
@@ -100,7 +100,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/home" className="flex-shrink-0 flex items-center">
-              <ImLeaf className="h-8 w-8 text-white" />
+              <img src={logoLeaf} alt="logo" className="w-16 h-16" />
               <span className="text-white font-extrabold ml-2 text-3xl">
                 AgroHelp
               </span>

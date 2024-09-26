@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
-import { ImLeaf } from 'react-icons/im';
+import logoLeaf from '../../assets/logoLeaf.svg';
 
 const Footer = () => {
   return (
@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 md:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center">
           <Link to="/" className="flex-shrink-0 flex items-center">
-            <ImLeaf className="h-8 w-8 text-white" />
+          <img src={logoLeaf} alt="logo" className="w-16 h-16" />
             <span className="text-white font-extrabold ml-2 text-3xl">
               AgroHelp
             </span>
