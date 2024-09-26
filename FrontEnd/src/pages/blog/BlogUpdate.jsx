@@ -1,21 +1,21 @@
 /** @format */
 
-import React from 'react';
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaPenNib } from 'react-icons/fa';
-import { BlogContainer, Loader } from '../../components';
+import { BlogContainer } from '../../components';
 import { Editor } from '@tinymce/tinymce-react';
 import { updateBlog, getBlogById } from '../../api/blog';
 import { useParams } from 'react-router-dom';
+import { useGlobalContext } from '../../context/ContextProvider';
 
 export default function BlogUpdate() {
   const { id } = useParams();
 
   const navigateTo = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem('userInfo'));
+  const { user } = useGlobalContext();
   const authorID = user._id;
 
   const [blog, setBlog] = useState('');

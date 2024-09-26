@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { getUserDetails } from '../api/user';
 
 const Context = createContext();
 
@@ -30,18 +31,19 @@ export const ContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    //set server url in local storage
-    localStorage.setItem('agroServer', server);
+    const fetchUserDetails = async () => {
+      try {
+        const userDetails = await getUserDetails();
+        if (userDetails) {
+          setUser(userDetails);
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    };
 
-    // Get user info from local storage
-    const userInfoFromStorage = localStorage.getItem('userInfo')
-      ? JSON.parse(localStorage.getItem('userInfo'))
-      : null;
-
-    if (userInfoFromStorage) {
-      setUser(userInfoFromStorage);
-    }
-  }, []);
+    fetchUserDetails();
+  }, [server]);
 
   return (
     <Context.Provider value={{ user, setUser, server, setServer, notify }}>

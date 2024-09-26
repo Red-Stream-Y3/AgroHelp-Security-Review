@@ -16,8 +16,8 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchSite = async () => {
-    const visits = await getSiteVisits(user.token);
-    const users = await getUsers(user.token);
+    const visits = await getSiteVisits();
+    const users = await getUsers();
     const blogs = await getAllBlogs();
     const crops = await getAllCrops();
     const diseases = await getAllDiseases();

@@ -38,14 +38,14 @@ export default function BlogView() {
   let userId;
   let userName;
 
-  const userDetails = JSON.parse(localStorage.getItem('userInfo'));
-  if (userDetails) {
-    userId = userDetails._id;
-    userName = userDetails.username;
+  const { user } = useGlobalContext();
+  if (user) {
+    userId = user._id;
+    userName = user.username;
   }
 
   useEffect(() => {
-    if (userDetails) {
+    if (user) {
       setIsLogged(true);
     }
   }, []);

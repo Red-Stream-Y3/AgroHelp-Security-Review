@@ -1,10 +1,10 @@
 /** @format */
 
-import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getBlogsByAuthor } from "../../api/blog";
 import { BlogContainer, PublicBlogCard } from "../../components";
+import { useGlobalContext } from "../../context/ContextProvider";
 
 export default function BlogsbyAuthor() {
   const { id } = useParams();
@@ -26,7 +26,7 @@ export default function BlogsbyAuthor() {
     fetchBlogsByAuthor();
   }, [id]);
 
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const { user } = useGlobalContext();
   let userID;
 
   if (user && blogs) {

@@ -8,14 +8,6 @@ import { Loader } from '../../components';
 function AccountSettings() {
   const { user, setUser } = useGlobalContext();
 
-  if (!user) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Loader />
-      </div>
-    );
-  }
-
   const isAdmin = user && user.role === 'admin';
   const [username, setUserName] = useState(user.username);
   const [email, setEmail] = useState(user.email);
@@ -26,6 +18,14 @@ function AccountSettings() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const navigate = useNavigate();
+
+  if (!user) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -50,7 +50,6 @@ function AccountSettings() {
           email,
           password,
         },
-        user.token
       );
 
       setUser({
@@ -78,8 +77,8 @@ function AccountSettings() {
   const handleOpenWidget = () => {
     var myWidget = window.cloudinary.createUploadWidget(
       {
-        cloudName: 'dqyue23nj',
-        uploadPreset: 'agrohelp',
+        cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+        uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
         upload_single: true,
       },
       (error, result) => {
@@ -92,7 +91,7 @@ function AccountSettings() {
   };
 
   const handleRequestRole = async (id, role) => {
-    await requestRole({ _id: id, request: role }, user.token);
+    await requestRole({ _id: id, request: role });
     toast.success(`Requested ${role} Successfully`, {
       hideProgressBar: false,
       closeOnClick: true,

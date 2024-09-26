@@ -6,9 +6,10 @@ import {
 } from '../../api/knowlegdebase';
 import { getBookmarkedBlogs } from '../../api/blog';
 import { CropCard, DiseaseCard, Loader } from '../../components';
+import { useGlobalContext } from "../../context/ContextProvider";
 
 const Profile = () => {
-  const user = JSON.parse(localStorage.getItem('userInfo'));
+  const { user } = useGlobalContext();
   const userId = user._id;
 
   const [cropBookmarks, setCropBookmarks] = useState([]);
@@ -31,7 +32,7 @@ const Profile = () => {
     }
 
     fetchData();
-  }, [userId, user.token]);
+  }, [userId]);
 
   if (loading) {
     return (

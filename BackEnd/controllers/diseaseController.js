@@ -1,5 +1,6 @@
 import CropDisease from '../models/diseaseModel.js';
 import asyncHandler from 'express-async-handler';
+import { escapeRegex } from '../utils/utils.js';
 
 //@desc     Get all crop diseases
 //@route    GET /api/cropDiseases
@@ -168,15 +169,14 @@ const updateCropDisease = asyncHandler(async (req, res) => {
 //@access   Public
 const searchCropDisease = asyncHandler(async (req, res) => {
   try {
-    const searchTerm = req.params.q;
+    const searchTerm = escapeRegex(req.params.q); // sanitize input
     const cropDiseases = await CropDisease.find({
       diseaseName: { $regex: new RegExp(`^${searchTerm}`, 'i') },
     });
-    if (cropDiseases) {
+    if (cropDiseases.length) {
       res.json(cropDiseases);
     } else {
-      res.status(404);
-      throw new Error('Crop disease not found');
+      res.status(404).json({ message: 'Crop disease not found' });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
