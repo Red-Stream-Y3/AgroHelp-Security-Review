@@ -11,7 +11,7 @@
     "author": "RedStream",
     "license": "ISC",
     "dependencies": {
-        "@babel/core": "^7.23.2",
+        "@babel/core": "^7.26.10",
         "@babel/preset-env": "^7.24.6",
         "axios": "^1.7.7",
         "babel-jest": "^29.7.0",
